@@ -47,6 +47,7 @@ public class AtmApplication {
                 bank.getAccounts().get(i).getPassword().equals(password)){
 
                 System.out.println("Welcome " + username + "!");
+
                 BankService bankService = new ATM();
                 int choice = -1;
 
