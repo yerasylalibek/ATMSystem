@@ -1,7 +1,9 @@
 package com.system.atm;
 
-import com.system.atm.model.Account;
+import com.system.atm.model.user.User;
 import com.system.atm.model.Bank;
+import com.system.atm.model.user.UserFactory;
+import com.system.atm.model.user.UserType;
 import com.system.atm.service.ATM;
 import com.system.atm.service.BankService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -20,20 +22,22 @@ public class AtmApplication {
         Scanner in = new Scanner(System.in);
 
         //Creating Account
-        Account account1 = context.getBean("account", Account.class);
-        account1.setId(1);
-        account1.setUsername("erasyl");
-        account1.setPassword("12345");
-        account1.setBalance(200000);
 
-        List<Account> accounts = new ArrayList<>();
-        accounts.add(account1);
+        UserFactory uf = context.getBean("userFactory", UserFactory.class);
+
+
+
+        User user1 = uf.createUser(UserType.Single, 1, "Erasyl", 19,
+                "eraskaz", "12345", 200000);
+
+        List<User> users = new ArrayList<>();
+        users.add(user1);
 
         //Creating Bank
         Bank bank = context.getBean("bank", Bank.class);
         bank.setId(1);
         bank.setName("Kaspi");
-        bank.setAccounts(accounts);
+        bank.setUsers(users);
 
 
         //Entering to the system
@@ -42,9 +46,9 @@ public class AtmApplication {
         System.out.println("Enter password: ");
         String password = in.next();
 
-        for(int i = 0; i < bank.getAccounts().size(); i++){
-            if(bank.getAccounts().get(i).getUsername().equalsIgnoreCase(username) &&
-                bank.getAccounts().get(i).getPassword().equals(password)){
+        for(int i = 0; i < bank.getUsers().size(); i++){
+            if(bank.getUsers().get(i).getUsername().equalsIgnoreCase(username) &&
+                bank.getUsers().get(i).getPassword().equals(password)){
 
                 System.out.println("Welcome " + username + "!");
 
@@ -63,29 +67,24 @@ public class AtmApplication {
 
                     switch (choice){
                         case 1:
-                            bankService.checkBalance(bank.getAccounts().get(i));
+                            bankService.checkBalance(bank.getUsers().get(i));
                             break;
                         case 2:
-                            bankService.withdraw(bank.getAccounts().get(i));
+                            bankService.withdraw(bank.getUsers().get(i));
                             break;
                         case 3:
-                            bankService.topUp(bank.getAccounts().get(i));
+                            bankService.topUp(bank.getUsers().get(i));
                             break;
                         case 4:
-                            bankService.changePinCode(bank.getAccounts().get(i));
+                            bankService.changePinCode(bank.getUsers().get(i));
                             break;
-                        case 0:
-                            System.out.println("Exit");
-                            return;
                         default:
-                            System.out.println("Incorrect choice! Please try again!");
                             break;
                     }
                 }
 
             }
         }
-
         context.close();
     }
 

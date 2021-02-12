@@ -1,24 +1,29 @@
 package com.system.atm.model;
 
+import com.system.atm.model.user.User;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class Bank {
     private int id;
     private String bankName;
-    private List<Account> accounts = new ArrayList();
+    private List<User> users = new ArrayList();
 
-    public Bank(int id, String bankName, List<Account> accounts) {
+    public Bank(int id, String bankName, List<User> users) {
         this.id = id;
         this.bankName = bankName;
-        this.accounts = accounts;
+        this.users = users;
     }
 
-    public void addAccount(Account account){
-        accounts.add(account);
+    public Bank(String id, String bankName) {
     }
-    public void deleteAccount(Account account){
-        accounts.remove(account);
+
+    public void addAccount(User user){
+        users.add(user);
+    }
+    public void deleteAccount(User user){
+        users.remove(user);
     }
 
     public int getId() {
@@ -37,11 +42,11 @@ public class Bank {
         this.bankName = name;
     }
 
-    public List<Account> getAccounts() {
-        return accounts;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setAccounts(List<Account> accounts) {
-        this.accounts = accounts;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
