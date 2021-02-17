@@ -1,5 +1,7 @@
 package com.system.atm.model.user;
 
+import org.springframework.stereotype.Component;
+
 public class Retiree  implements User{
     private int id;
     private String name;

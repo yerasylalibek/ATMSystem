@@ -1,36 +1,39 @@
 package com.system.atm.model;
 
-import com.system.atm.model.user.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class Bank {
-    private int id;
+    private String id;
     private String bankName;
-    private List<User> users = new ArrayList();
+    private List<Client> clients;
 
-    public Bank(int id, String bankName, List<User> users) {
+    @Autowired
+    public Bank(@Value("${bank.id}") String id, @Value("${bank.name}") String bankName, List<Client> clients) {
         this.id = id;
         this.bankName = bankName;
-        this.users = users;
+        this.clients = clients;
     }
 
-    public Bank(String id, String bankName) {
+    public Bank() {
     }
 
-    public void addAccount(User user){
-        users.add(user);
+    public void addAccount(Client client){
+        clients.add(client);
     }
-    public void deleteAccount(User user){
-        users.remove(user);
+    public void deleteAccount(Client client){
+        clients.remove(client);
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -42,11 +45,19 @@ public class Bank {
         this.bankName = name;
     }
 
-    public List<User> getUsers() {
-        return users;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setUsers(List<User> users) {
-        this.users = users;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
+    }
+
+    public List<Client> getClients() {
+        return clients;
+    }
+
+    public void setClients(List<Client> clients) {
+        this.clients = clients;
     }
 }

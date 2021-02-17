@@ -1,13 +1,11 @@
 package com.system.atm;
 
-import com.system.atm.model.user.User;
 import com.system.atm.model.Bank;
-import com.system.atm.model.user.UserFactory;
-import com.system.atm.model.user.UserType;
+import com.system.atm.model.Client;
 import com.system.atm.service.ATM;
 import com.system.atm.service.BankService;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,28 +14,20 @@ import java.util.Scanner;
 @SpringBootApplication
 public class AtmApplication {
 
-    public static void main(String[] args) { //        SpringApplication.run(AtmApplication.class, args);
+    public static void main(String[] args) {
 
-        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("beans.xml");
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
         Scanner in = new Scanner(System.in);
+        context.refresh();
 
-        //Creating Account
+        Client client = context.getBean("client", Client.class);
 
-        UserFactory uf = context.getBean("userFactory", UserFactory.class);
+        List<Client> clients = new ArrayList<>();
+        clients.add(client);
 
-
-
-        User user1 = uf.createUser(UserType.Single, 1, "Erasyl", 19,
-                "eraskaz", "12345", 200000);
-
-        List<User> users = new ArrayList<>();
-        users.add(user1);
-
-        //Creating Bank
         Bank bank = context.getBean("bank", Bank.class);
-        bank.setId(1);
-        bank.setName("Kaspi");
-        bank.setUsers(users);
+        bank.setClients(clients);
+        System.out.println(bank.getBankName());
 
 
         //Entering to the system
@@ -46,9 +36,9 @@ public class AtmApplication {
         System.out.println("Enter password: ");
         String password = in.next();
 
-        for(int i = 0; i < bank.getUsers().size(); i++){
-            if(bank.getUsers().get(i).getUsername().equalsIgnoreCase(username) &&
-                bank.getUsers().get(i).getPassword().equals(password)){
+        for(int i = 0; i < bank.getClients().size(); i++){
+            if(bank.getClients().get(i).getUsername().equalsIgnoreCase(username) &&
+                bank.getClients().get(i).getPassword().equals(password)){
 
                 System.out.println("Welcome " + username + "!");
 
@@ -67,16 +57,16 @@ public class AtmApplication {
 
                     switch (choice){
                         case 1:
-                            bankService.checkBalance(bank.getUsers().get(i));
+                            bankService.checkBalance(bank.getClients().get(i));
                             break;
                         case 2:
-                            bankService.withdraw(bank.getUsers().get(i));
+                            bankService.withdraw(bank.getClients().get(i));
                             break;
                         case 3:
-                            bankService.topUp(bank.getUsers().get(i));
+                            bankService.topUp(bank.getClients().get(i));
                             break;
                         case 4:
-                            bankService.changePinCode(bank.getUsers().get(i));
+                            bankService.changePinCode(bank.getClients().get(i));
                             break;
                         default:
                             break;

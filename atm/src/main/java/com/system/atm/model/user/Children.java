@@ -1,5 +1,8 @@
 package com.system.atm.model.user;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 public class Children implements User {
     private int id;
     private String name;

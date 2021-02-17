@@ -1,12 +1,16 @@
 package com.system.atm.service;
 
-import com.system.atm.model.user.User;
+import com.system.atm.model.Client;
+import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+@Service
+@Component
 public class ATM implements BankService{
     private final String url = "jdbc:postgresql://localhost/atm";
     private final String username = "postgres";
@@ -20,31 +24,31 @@ public class ATM implements BankService{
     }
 
     @Override
-    public void checkBalance(User user) {
-        System.out.println("Your balance: " + user.getBalance());
+    public void checkBalance(Client client) {
+        System.out.println("Your balance: " + client.getBalance());
     }
 
     @Override
-    public void withdraw(User user) {
+    public void withdraw(Client client) {
         System.out.println("How many balance you want to withdraw ? ");
         int money = in.nextInt();
-        user.setBalance(user.getBalance() - money);
+        client.setBalance(client.getBalance() - money);
         System.out.println("Done!");
-        System.out.println("You have " + user.getBalance());
+        System.out.println("You have " + client.getBalance());
 
     }
 
     @Override
-    public void topUp(User user) {
+    public void topUp(Client client) {
         System.out.println("How many balance you want to top up ? ");
         int money = in.nextInt();
-        user.setBalance(user.getBalance() + money);
+        client.setBalance(client.getBalance() + money);
         System.out.println("Done!");
-        System.out.println("you have " + user.getBalance());
+        System.out.println("you have " + client.getBalance());
     }
 
     @Override
-    public void changePinCode(User user) {
+    public void changePinCode(Client client) {
         System.out.println("Enter old password: ");
         String oldPassword = in.next();
         System.out.println("Enter new Password: ");
@@ -52,9 +56,9 @@ public class ATM implements BankService{
         System.out.println("Confirm Password: ");
         String confirm = in.next();
 
-        if(user.getPassword().equals(oldPassword)){
+        if(client.getPassword().equals(oldPassword)){
             if(newPassword.equals(confirm)){
-                user.setPassword(newPassword);
+                client.setPassword(newPassword);
                 System.out.println("Password has been changed!");
             }else{
                 System.out.println("Incorrect confirming! ");

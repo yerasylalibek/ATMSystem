@@ -1,5 +1,8 @@
 package com.system.atm.model.user;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public interface User {
     int getId();
     String getName();
