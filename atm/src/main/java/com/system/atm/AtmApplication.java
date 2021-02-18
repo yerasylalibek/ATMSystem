@@ -18,7 +18,7 @@ public class AtmApplication {
 
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(SpringConfiguration.class);
         Scanner in = new Scanner(System.in);
-        context.refresh();
+        //context.refresh();
 
         Client client = context.getBean("client", Client.class);
 

@@ -20,7 +20,7 @@ public class Client {
                   @Value("${user.age}") String age,
                   @Value("${user.username}") String username,
                   @Value("${user.password}") String password,
-                  @Value("${user.type}") int balance) {
+                  @Value("${user.balance}") int balance) {
         this.id = id;
         this.name = name;
         this.age = age;
